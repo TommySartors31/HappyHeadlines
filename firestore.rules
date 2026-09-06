@@ -1,0 +1,149 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /*
+      A user is signed in through Firebase Authentication.
+    */
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    /*
+      The signed-in user owns this profile document.
+    */
+    function ownsProfile(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    /*
+      USER PROFILES
+
+      Users can read their own private account document.
+
+      Most point and streak fields cannot be changed directly
+      from the browser. Firebase Cloud Functions update those
+      securely on the server.
+    */
+    match /users/{userId} {
+      allow read: if ownsProfile(userId);
+
+      allow create: if ownsProfile(userId)
+        && request.resource.data.username is string
+        && request.resource.data.username.size() >= 3
+        && request.resource.data.username.size() <= 20;
+
+      allow update: if ownsProfile(userId)
+        && request.resource.data.username == resource.data.username
+        && request.resource.data.usernameLower == resource.data.usernameLower
+        && request.resource.data.careerPoints == resource.data.careerPoints
+        && request.resource.data.currentSeasonPoints == resource.data.currentSeasonPoints
+        && request.resource.data.currentStreak == resource.data.currentStreak
+        && request.resource.data.longestStreak == resource.data.longestStreak
+        && request.resource.data.lastQualifiedDate == resource.data.lastQualifiedDate
+        && request.resource.data.todayDate == resource.data.todayDate
+        && request.resource.data.todayReadingMinutes == resource.data.todayReadingMinutes
+        && request.resource.data.todayPoints == resource.data.todayPoints
+        && request.resource.data.todayStreakBonus == resource.data.todayStreakBonus;
+
+      allow delete: if false;
+
+      /*
+        PRIVATE PRAYER RECORDS
+
+        A user can access only their own private prayer data.
+      */
+      match /prayers/{prayerId} {
+        allow read, write: if ownsProfile(userId);
+      }
+    }
+
+    /*
+      USERNAME DIRECTORY
+
+      This prevents two accounts from claiming the same
+      public HappyHeadlines username.
+
+      Users can read it while creating an account to see whether
+      a username is already taken. They can only create their own
+      username document. They cannot modify or delete names.
+    */
+    match /usernames/{username} {
+      allow read: if signedIn();
+
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid;
+
+      allow update, delete: if false;
+    }
+
+    /*
+      SEASON LEADERBOARD
+
+      Anyone can read the public leaderboard.
+      Only Cloud Functions may write score documents.
+    */
+    match /seasonScores/{scoreId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    /*
+      DAILY POLLS
+
+      Anyone can read poll wording and anonymous totals.
+      Only Cloud Functions may create polls or add votes.
+    */
+    match /polls/{pollId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    /*
+      COMMUNITY READING GOALS
+
+      Anyone can read the current group goal.
+      Only Cloud Functions may add reading minutes.
+    */
+    match /community/{seasonId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    /*
+      NEWS FEED CACHE
+
+      The cached article-feed data stays server-only.
+      Website visitors receive it through the secure Cloud Function.
+    */
+    match /feedCache/{cacheId} {
+      allow read, write: if false;
+    }
+
+    /*
+      POINT EVENTS
+
+      This is server-only score history.
+      Visitors cannot read or alter it.
+    */
+    match /pointEvents/{eventId} {
+      allow read, write: if false;
+    }
+
+    /*
+      PRIVATE REPORTS
+
+      Signed-in users can submit a report.
+      Users cannot read other people’s reports.
+      Moderators will eventually use Firebase Admin tools,
+      which bypass Firestore rules securely.
+    */
+    match /reports/{reportId} {
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid;
+
+      allow read, update, delete: if false;
+    }
+  }
+}
