@@ -8,13 +8,14 @@
   https://console.firebase.google.com/
 */
 
-export const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY_HERE",
-  authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID",
-  appId: "PASTE_YOUR_APP_ID"
+const firebaseConfig = {
+  apiKey: "AIzaSyDUyWYvDQeqhebYHs_NHPSBc9ywFyM448o",
+  authDomain: "happyheadlines.firebaseapp.com",
+  projectId: "happyheadlines",
+  storageBucket: "happyheadlines.firebasestorage.app",
+  messagingSenderId: "397541233633",
+  appId: "1:397541233633:web:c8f951bfa0dc60f5ec78a0",
+  measurementId: "G-NGJWZCKNXM"
 };
 
 /*
