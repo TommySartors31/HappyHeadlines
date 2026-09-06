@@ -1,0 +1,14 @@
+{
+  "name": "happyheadlines-functions",
+  "description": "Secure Firebase Cloud Functions for HappyHeadlines",
+  "private": true,
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.5.0",
+    "firebase-functions": "^5.1.1",
+    "rss-parser": "^3.13.0"
+  }
+}
