@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <meta
+    name="description"
+    content="HappyHeadlines — good news, faith, and hope every day."
+  />
+  <meta name="theme-color" content="#264b71" />
+  <title>HappyHeadlines</title>
+
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="sky-glow glow-one"></div>
+  <div class="sky-glow glow-two"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="HappyHeadlines home">
+      <span class="brand-sun">☀</span>
+      <span>
+        <strong>HappyHeadlines</strong>
+        <small>Good news, faith, and hope every day</small>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <button id="calmModeButton" class="icon-button" type="button" title="Toggle Calm Mode">
+        ☁ Calm Mode
+      </button>
+
+      <button id="settingsButton" class="icon-button" type="button" title="Reading settings">
+        ⚙ Settings
+      </button>
+
+      <button id="authButton" class="primary-small-button" type="button">
+        Sign in
+      </button>
+    </div>
+  </header>
+
+  <nav class="main-nav" aria-label="Main navigation">
+    <button class="nav-button active" data-tab="home">Home</button>
+    <button class="nav-button" data-tab="history">Then &amp; Bright Now</button>
+    <button class="nav-button" data-tab="faith">Faithful Headlines</button>
+    <button class="nav-button" data-tab="breaking">Bright Breaking</button>
+    <button class="nav-button" data-tab="leaderboard">Hall of Hope</button>
+    <button class="nav-button" data-tab="profile">My Light</button>
+  </nav>
+
+  <main class="page-shell">
+    <section id="siteNotice" class="notice-card">
+      <span>🕊</span>
+      <p>
+        <strong>No-Doomscroll Promise:</strong> HappyHeadlines uses verified sources,
+        calm design, no graphic imagery, and no fear-based headlines.
+      </p>
+    </section>
+
+    <section id="home" class="tab-panel active">
+      <section class="hero-card">
+        <div>
+          <p class="eyebrow">SEASON 1 · SEPTEMBER 2026</p>
+          <h1>Season of Light</h1>
+          <p class="hero-copy">
+            A quiet corner of the internet for good news, faith, service,
+            healing, peace, and the small bright things happening around the world.
+          </p>
+          <div class="hero-actions">
+            <button class="primary-button" data-open-tab="breaking">
+              Read good news
+            </button>
+            <button class="soft-button" id="takeBreathButton">
+              Take a breath
+            </button>
+          </div>
+        </div>
+
+        <div class="season-orb">
+          <span>☀</span>
+          <strong id="seasonCountdown">Loading season…</strong>
+          <small>Season points are live</small>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="card daily-spark-card">
+          <p class="card-label">DAILY SPARK</p>
+          <h2 id="dailySparkTitle">A little light for today</h2>
+          <p id="dailySparkText">
+            Small acts of kindness can change the tone of an entire day.
+          </p>
+        </article>
+
+        <article class="card prayer-card">
+          <p class="card-label">PRAYER FOR PEACE</p>
+          <blockquote>
+            “Blessed are the peacemakers, for they will be called children of God.”
+          </blockquote>
+          <p class="scripture-credit">Matthew 5:9</p>
+          <button id="prayedButton" class="soft-button wide-button" type="button">
+            🕊 I prayed today
+          </button>
+          <p id="prayerCountText" class="tiny-note"></p>
+        </article>
+
+        <article class="card points-card">
+          <p class="card-label">YOUR LIGHT TODAY</p>
+          <div class="points-number" id="todayPoints">0</div>
+          <p>points earned today</p>
+          <div class="progress-track">
+            <div id="readingProgressBar" class="progress-fill"></div>
+          </div>
+          <p id="readingProgressText" class="tiny-note">
+            Sign in to begin your 5-minute daily streak.
+          </p>
+        </article>
+      </section>
+
+      <section class="section-heading-row">
+        <div>
+          <p class="eyebrow">CURRENT STORIES</p>
+          <h2>Good news worth your time</h2>
+        </div>
+        <div class="category-filters" id="homeCategoryFilters">
+          <button class="filter-button active" data-category="all">All</button>
+          <button class="filter-button" data-category="good">Good News</button>
+          <button class="filter-button" data-category="peace">Peace</button>
+          <button class="filter-button" data-category="science">Science</button>
+          <button class="filter-button" data-category="creation">Creation</button>
+        </div>
+      </section>
+
+      <div id="homeArticles" class="article-grid">
+        <p class="loading-text">Finding verified hopeful stories…</p>
+      </div>
+
+      <section class="two-column-section">
+        <article class="card poll-card">
+          <p class="card-label">DAILY POLL</p>
+          <span id="pollMoodTag" class="pill-tag">DAILY REFLECTION</span>
+          <h2 id="pollQuestion">Loading today’s poll…</h2>
+          <div id="pollOptions" class="poll-options"></div>
+          <div id="pollResults" class="poll-results hidden"></div>
+        </article>
+
+        <article class="card map-card">
+          <p class="card-label">GOOD NEWS MAP</p>
+          <h2>Hope is everywhere</h2>
+          <p>
+            Explore current hopeful stories by broad region. Locations are
+            approximate and never show private user information.
+          </p>
+          <div id="goodNewsMap" class="simple-map">
+            <div class="map-land land-one"></div>
+            <div class="map-land land-two"></div>
+            <div class="map-land land-three"></div>
+            <button class="map-pin pin-one" data-region="Americas">✦</button>
+            <button class="map-pin pin-two" data-region="Europe">✦</button>
+            <button class="map-pin pin-three" data-region="Africa">✦</button>
+            <button class="map-pin pin-four" data-region="Asia">✦</button>
+            <button class="map-pin pin-five" data-region="Oceania">✦</button>
+          </div>
+          <p id="mapRegionText" class="tiny-note">
+            Select a star to see a regional story category.
+          </p>
+        </article>
+      </section>
+
+      <section class="card collaboration-card">
+        <div>
+          <p class="card-label">COMMUNITY LIGHT</p>
+          <h2>Read hopeful minutes together</h2>
+          <p id="communityChallengeText">
+            The HappyHeadlines community is working toward a shared reading goal.
+          </p>
+        </div>
+        <div class="community-progress-wrap">
+          <strong id="communityProgressLabel">0 / 5,000 minutes</strong>
+          <div class="progress-track large-progress">
+            <div id="communityProgressBar" class="progress-fill"></div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="history" class="tab-panel">
+      <section class="page-intro">
+        <p class="eyebrow">THEN &amp; BRIGHT NOW</p>
+        <h1>History worth remembering with hope</h1>
+        <p>
+          Discover what happened on this date, with a focus on learning,
+          courage, creativity, recovery, and the ways people have helped one another.
+        </p>
+      </section>
+
+      <section class="card timeline-card">
+        <p class="card-label">ON THIS DAY</p>
+        <div id="historyTimeline" class="history-timeline">
+          <p class="loading-text">Loading real historical events…</p>
+        </div>
+      </section>
+
+      <section class="two-column-section">
+        <article class="card">
+          <p class="card-label">A MOMENT OF COURAGE</p>
+          <h2 id="courageTitle">History holds many lights</h2>
+          <p id="courageText">
+            Explore the timeline to learn about people and events that helped shape a better future.
+          </p>
+        </article>
+
+        <article class="card">
+          <p class="card-label">HISTORIC HOPE TIMELINE</p>
+          <h2>Then and now</h2>
+          <p>
+            Big progress often begins with ordinary people choosing service,
+            truth, courage, compassion, and patient work.
+          </p>
+          <button class="soft-button" data-open-tab="faith">
+            See faith in action
+          </button>
+        </article>
+      </section>
+    </section>
+
+    <section id="faith" class="tab-panel">
+      <section class="page-intro">
+        <p class="eyebrow">FAITHFUL HEADLINES</p>
+        <h1>Catholic life, service, and hope</h1>
+        <p>
+          Catholic news, the Saint of the Day, prayer, and stories of mercy in action.
+        </p>
+      </section>
+
+      <section class="saint-feature">
+        <article class="saint-icon-card">
+          <span>✝</span>
+          <p>SAINT OF THE DAY</p>
+        </article>
+
+        <article class="saint-detail-card">
+          <p class="card-label" id="liturgicalSeasonText">CATHOLIC CALENDAR</p>
+          <h2 id="saintName">Saint of the Day</h2>
+          <p id="saintDescription">
+            Loading the day’s Catholic observance…
+          </p>
+          <p id="saintLesson" class="saint-lesson"></p>
+          <button id="saintPrayerButton" class="soft-button">
+            Saint, pray for us
+          </button>
+        </article>
+      </section>
+
+      <section class="section-heading-row">
+        <div>
+          <p class="eyebrow">CHURCH &amp; SERVICE</p>
+          <h2>Faithful headlines</h2>
+        </div>
+      </section>
+
+      <div id="faithArticles" class="article-grid">
+        <p class="loading-text">Loading trusted Catholic news…</p>
+      </div>
+
+      <section class="card source-card">
+        <p class="card-label">SOURCE PROMISE</p>
+        <p>
+          Religious-news links are labeled with their publisher and lead to the
+          original reporting. HappyHeadlines does not invent Catholic news stories.
+        </p>
+      </section>
+    </section>
+
+    <section id="breaking" class="tab-panel">
+      <section class="page-intro">
+        <p class="eyebrow">✨ BRIGHT BREAKING</p>
+        <h1>Timely updates that give reason for hope</h1>
+        <p>
+          Verified reports of help arriving, people recovering, communities rebuilding,
+          peace efforts, rescues, discoveries, and generosity.
+        </p>
+      </section>
+
+      <section class="breaking-banner">
+        <span>✨</span>
+        <div>
+          <strong>Breaking Good News</strong>
+          <p>Calm updates, never panic updates.</p>
+        </div>
+      </section>
+
+      <div id="breakingArticles" class="article-grid">
+        <p class="loading-text">Loading verified hopeful updates…</p>
+      </div>
+
+      <section class="card why-hopeful-card">
+        <p class="card-label">WHY THIS IS HOPEFUL</p>
+        <p>
+          Difficult events can be real without becoming the only story. HappyHeadlines
+          highlights practical help, peacebuilding, healing, and the people choosing to care.
+        </p>
+      </section>
+    </section>
+
+    <section id="leaderboard" class="tab-panel">
+      <section class="page-intro leaderboard-intro">
+        <div>
+          <p class="eyebrow">HALL OF HOPE</p>
+          <h1>Season of Light leaderboard</h1>
+          <p>
+            Only the top 25 public usernames are shown. Your exact placement is always private to you.
+          </p>
+        </div>
+        <div class="season-mini-card">
+          <strong id="leaderboardCountdown">Season active</strong>
+          <small>September 1–30, 2026</small>
+        </div>
+      </section>
+
+      <section id="myRankCard" class="card my-rank-card hidden">
+        <div>
+          <p class="card-label">YOUR POSITION</p>
+          <h2 id="myRankHeading">Sign in to see your rank</h2>
+          <p id="myRankText"></p>
+        </div>
+        <div class="rank-progress-wrap">
+          <div class="progress-track large-progress">
+            <div id="rankProgressBar" class="progress-fill"></div>
+          </div>
+          <p id="rankProgressText" class="tiny-note"></p>
+        </div>
+      </section>
+
+      <section class="leaderboard-card card">
+        <div id="leaderboardList" class="leaderboard-list">
+          <p class="loading-text">Loading leaderboard…</p>
+        </div>
+      </section>
+
+      <section class="rank-grid">
+        <article class="rank-card king"><span>👑</span><strong>King</strong><small>Top 1</small></article>
+        <article class="rank-card elite"><span>✦</span><strong>Elite</strong><small>Top 2–5</small></article>
+        <article class="rank-card diamond"><span>💎</span><strong>Diamond</strong><small>Top 6–10</small></article>
+        <article class="rank-card ruby"><span>♦</span><strong>Ruby</strong><small>Top 11–25</small></article>
+        <article class="rank-card emerald"><span>🟩</span><strong>Emerald</strong><small>Top 26–100</small></article>
+        <article class="rank-card topaz"><span>◆</span><strong>Topaz</strong><small>Top 101–300</small></article>
+        <article class="rank-card gold"><span>🏅</span><strong>Gold</strong><small>Top 301–500</small></article>
+        <article class="rank-card wood"><span>🪵</span><strong>Wood</strong><small>Top 501+</small></article>
+      </section>
+    </section>
+
+    <section id="profile" class="tab-panel">
+      <section id="signedOutProfile" class="empty-state card">
+        <span>☀</span>
+        <h1>Make your light visible</h1>
+        <p>
+          Create a free account to save your season score, career points,
+          streak, badges, poll votes, preferences, and profile.
+        </p>
+        <button id="profileSignInButton" class="primary-button">Create account or sign in</button>
+      </section>
+
+      <section id="signedInProfile" class="hidden">
+        <section class="profile-hero card">
+          <div class="avatar-circle" id="profileAvatar">H</div>
+          <div>
+            <p class="card-label">MY LIGHT</p>
+            <h1 id="profileUsername">@HappyReader</h1>
+            <p id="profileJoinDate">Member of HappyHeadlines</p>
+          </div>
+          <button id="signOutButton" class="soft-button profile-signout">Sign out</button>
+        </section>
+
+        <section class="profile-stat-grid">
+          <article class="card stat-card">
+            <p>Career Points</p>
+            <strong id="careerPointsValue">0</strong>
+          </article>
+          <article class="card stat-card">
+            <p>Season Points</p>
+            <strong id="seasonPointsValue">0</strong>
+          </article>
+          <article class="card stat-card">
+            <p>Current Streak</p>
+            <strong id="currentStreakValue">0</strong>
+          </article>
+          <article class="card stat-card">
+            <p>Longest Streak</p>
+            <strong id="longestStreakValue">0</strong>
+          </article>
+        </section>
+
+        <section class="two-column-section">
+          <article class="card">
+            <p class="card-label">CURRENT RANK</p>
+            <h2 id="profileRankName">Wood</h2>
+            <p id="profileRankDescription">Keep reading hopeful stories to build your season score.</p>
+          </article>
+
+          <article class="card">
+            <p class="card-label">SEASON PASSPORT</p>
+            <div id="seasonPassport">
+              <p>Your Season of Light journey is just beginning.</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="two-column-section">
+          <article class="card">
+            <p class="card-label">SAVED FOR LATER</p>
+            <div id="readLaterList" class="saved-list">
+              <p class="tiny-note">No stories saved yet.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <p class="card-label">BADGES</p>
+            <div id="badgeList" class="badge-list">
+              <span class="badge muted-badge">🌱 First Step</span>
+            </div>
+          </article>
+        </section>
+
+        <section class="settings-card card">
+          <p class="card-label">ACCOUNT &amp; WELLBEING</p>
+          <label class="toggle-row">
+            <span>Show me on the public leaderboard if I reach the Top 25</span>
+            <input id="leaderboardOptIn" type="checkbox" checked />
+          </label>
+          <label class="toggle-row">
+            <span>Receive optional Daily Blessing email reminders later</span>
+            <input id="digestOptIn" type="checkbox" />
+          </label>
+          <button id="reportProblemButton" class="text-button" type="button">
+            Report a problem or inappropriate content
+          </button>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>HappyHeadlines is built for hope, faith, calm, and verified sources.</p>
+    <button id="footerBreathButton" class="text-button" type="button">Take a breath</button>
+  </footer>
+
+  <dialog id="authDialog" class="modal">
+    <button class="modal-close" data-close-dialog="authDialog" aria-label="Close">×</button>
+
+    <div id="authChoiceView">
+      <p class="eyebrow">WELCOME</p>
+      <h2>Join HappyHeadlines</h2>
+      <p>
+        Use an email address and a respectful public username to keep your points,
+        streaks, badges, and season progress.
+      </p>
+      <div class="modal-actions">
+        <button id="showSignInButton" class="soft-button">Sign in</button>
+        <button id="showSignUpButton" class="primary-button">Create account</button>
+      </div>
+    </div>
+
+    <form id="signInForm" class="hidden auth-form">
+      <p class="eyebrow">WELCOME BACK</p>
+      <h2>Sign in</h2>
+      <label>
+        Email
+        <input id="signInEmail" type="email" required autocomplete="email" />
+      </label>
+      <label>
+        Password
+        <input id="signInPassword" type="password" required autocomplete="current-password" />
+      </label>
+      <p id="signInError" class="form-message"></p>
+      <button class="primary-button wide-button" type="submit">Sign in</button>
+      <button class="text-button switch-auth-view" data-view="choice" type="button">Back</button>
+    </form>
+
+    <form id="signUpForm" class="hidden auth-form">
+      <p class="eyebrow">NEW ACCOUNT</p>
+      <h2>Start your Season of Light</h2>
+
+      <label>
+        Email
+        <input id="signUpEmail" type="email" required autocomplete="email" />
+      </label>
+
+      <label>
+        Password
+        <input
+          id="signUpPassword"
+          type="password"
+          minlength="8"
+          required
+          autocomplete="new-password"
+        />
+      </label>
+
+      <label>
+        Public username
+        <input
+          id="signUpUsername"
+          type="text"
+          minlength="3"
+          maxlength="20"
+          required
+          autocomplete="nickname"
+          placeholder="HopefulReader"
+        />
+      </label>
+
+      <p class="username-help">
+        3–20 letters, numbers, or underscores. Do not use your real name,
+        school, location, age, contact information, offensive language, or impersonation.
+      </p>
+
+      <label class="checkbox-row">
+        <input id="rulesAgreement" type="checkbox" required />
+        <span>I agree to be kind and follow HappyHeadlines community rules.</span>
+      </label>
+
+      <p id="signUpError" class="form-message"></p>
+      <button class="primary-button wide-button" type="submit">Create account</button>
+      <button class="text-button switch-auth-view" data-view="choice" type="button">Back</button>
+    </form>
+  </dialog>
+
+  <dialog id="settingsDialog" class="modal">
+    <button class="modal-close" data-close-dialog="settingsDialog" aria-label="Close">×</button>
+    <p class="eyebrow">READING SETTINGS</p>
+    <h2>Make HappyHeadlines feel right for you</h2>
+
+    <label class="setting-label">
+      Text size
+      <select id="textSizeSelect">
+        <option value="normal">Normal</option>
+        <option value="large">Large</option>
+        <option value="xlarge">Extra large</option>
+      </select>
+    </label>
+
+    <label class="toggle-row">
+      <span>Dark mode</span>
+      <input id="darkModeToggle" type="checkbox" />
+    </label>
+
+    <label class="toggle-row">
+      <span>High contrast</span>
+      <input id="contrastToggle" type="checkbox" />
+    </label>
+
+    <label class="toggle-row">
+      <span>Reduce motion</span>
+      <input id="reduceMotionToggle" type="checkbox" />
+    </label>
+
+    <button id="saveSettingsButton" class="primary-button wide-button">Save settings</button>
+  </dialog>
+
+  <dialog id="breathDialog" class="modal breath-modal">
+    <button class="modal-close" data-close-dialog="breathDialog" aria-label="Close">×</button>
+    <p class="eyebrow">TAKE A BREATH</p>
+    <h2>You do not have to carry the whole world at once.</h2>
+    <div class="breath-circle" id="breathCircle">Breathe</div>
+    <p id="breathInstruction">Breathe in slowly for four counts.</p>
+    <blockquote>
+      “Peace I leave with you; my peace I give to you.”
+    </blockquote>
+    <p class="scripture-credit">John 14:27</p>
+    <button id="startBreathingButton" class="soft-button wide-button">Begin calm breathing</button>
+  </dialog>
+
+  <dialog id="reportDialog" class="modal">
+    <button class="modal-close" data-close-dialog="reportDialog" aria-label="Close">×</button>
+    <p class="eyebrow">REPORT A PROBLEM</p>
+    <h2>Help keep HappyHeadlines safe</h2>
+
+    <form id="reportForm" class="auth-form">
+      <label>
+        What needs attention?
+        <select id="reportType" required>
+          <option value="story">A story or link</option>
+          <option value="username">A username</option>
+          <option value="poll">A poll</option>
+          <option value="bug">A website bug</option>
+          <option value="other">Something else</option>
+        </select>
+      </label>
+
+      <label>
+        Brief description
+        <textarea id="reportMessage" rows="5" maxlength="1000" required></textarea>
+      </label>
+
+      <button class="primary-button wide-button" type="submit">Send private report</button>
+      <p id="reportStatus" class="form-message"></p>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
